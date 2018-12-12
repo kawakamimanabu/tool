@@ -1,4 +1,4 @@
-package com.wingdev.edu.tool;
+package com.dev.edu.tool;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
