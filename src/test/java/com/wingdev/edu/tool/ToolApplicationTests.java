@@ -1,16 +1,19 @@
 package com.wingdev.edu.tool;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ToolApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+  @Test
+  public void test() {
+    assertEquals(1,1);
+  }
 
 }

@@ -11,9 +11,7 @@
   <h1>communication tool</h1>
   <form class="form-signin" method="post" th:action="@{/login}">
     <h2 class="form-signin-heading">ログイン</h2>
-    <div th:if="${param.error}" class="alert alert-anger">
-      ログインコードまたはパスワードが正しくありません。
-    </div>
+    <div th:if="${param.error}" class="alert alert-anger">ログインIDまたはパスワードが正しくありません。</div>
     <input type="text"    class="form-control" name="loginId"  placeholder="LoginID"  required="required" autofocus="autofocus"/>
     <input type="password" class="form-control" name="password" placeholder="Password" required="required"/>
     <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
