@@ -3,8 +3,6 @@ package com.dev.edu.tool.web;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,8 +24,7 @@ import com.dev.edu.tool.service.ReportService;
 
 @Controller
 @RequestMapping("reports")
-public class ReportController {
-  private static Logger logger = LoggerFactory.getLogger(ReportController.class);
+public class ReportController extends BaseController {
   
   @Autowired
   ReportService reportService;
@@ -40,7 +37,7 @@ public class ReportController {
   @GetMapping
   public String list(Model model, @AuthenticationPrincipal LoginStaffDetails tantoDetails) {
     List<Report> reports = reportService.findAllByStaff(tantoDetails.getStaff());
-    model.addAttribute("responses", reports);
+    model.addAttribute("reports", reports);
     return "report/list";
   }
   

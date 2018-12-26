@@ -26,7 +26,7 @@
         <td th:text="${report.reportedWhen}">報告日時</td>
         <td th:text="${report.reportedWhen}">コメント追加日時</td>
         <td>
-        <form th:action="@{/reports/detail}" method="post">
+        <form th:action="@{/report/detail}" method="post">
           <input class="btn btn-default" type="submit" name="form" value="参照"/>
           <input type="hidden" name="id" th:value="${report.reportId}" />
         </form>
