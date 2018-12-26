@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/loginForm").permitAll()
             .antMatchers("/manage/**").hasRole(ROLE_ADMIN)
             .antMatchers("/setting/**").permitAll()
-            .antMatchers("/reports/**").permitAll()
+            .antMatchers("/report/**").permitAll()
             .antMatchers("/html/**").permitAll()
             .anyRequest().authenticated()
         .and()
@@ -49,6 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   PasswordEncoder passwordEncoder() {
-    return new Pbkdf2PasswordEncoder();
+    return new BCryptPasswordEncoder();
   }
 }

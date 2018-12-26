@@ -38,21 +38,21 @@ public class ReportController {
   }
   
   @GetMapping
-  String list(Model model, @AuthenticationPrincipal LoginStaffDetails tantoDetails) {
+  public String list(Model model, @AuthenticationPrincipal LoginStaffDetails tantoDetails) {
     List<Report> reports = reportService.findAllByStaff(tantoDetails.getStaff());
     model.addAttribute("responses", reports);
-    return "reports/list";
+    return "report/list";
   }
   
-  @PostMapping(path = "edit", params = "form")
-  String editForm(@RequestParam Integer id, ReportForm form) {
-    Report dummyResponse = reportService.findOne(id);
-    BeanUtils.copyProperties(dummyResponse, form);
-    return "reports/edit";
+  @PostMapping(path = "detail", params = "form")
+  public String editForm(@RequestParam Integer id, ReportForm form) {
+    Report report = reportService.findOne(id);
+    BeanUtils.copyProperties(report, form);
+    return "report/detail";
   }
   
-  @PostMapping(path = "edit")
-  String edit(@RequestParam Integer id, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  @PostMapping(path = "detail")
+  public String edit(@RequestParam Integer id, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return editForm(id, form);
     }
@@ -60,12 +60,12 @@ public class ReportController {
     report.setReport(form.getReport().getReport());
     report.setReportedWhen(LocalDateTime.now());
     reportService.update(report, staffDetails.getStaff());
-    return "redirect:/responses";
+    return "redirect:/report";
   }
   
   @PostMapping(path = "edit", params = "goToTop")
-  String goToTop() {
-    return "redirect:/responses";
+  public String goToTop() {
+    return "redirect:/report";
   }
   
 //  @PostMapping(path = "download")
