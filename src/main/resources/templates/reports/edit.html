@@ -13,9 +13,9 @@
     <h3 class="form-signin-heading">編集</h3>
     <form th:action="@{/reports/edit}" th:object="${reportForm}" method="post">
       <dl>
-        <dt><label for="responsearea">レスポンス内容</label></dt>
+        <dt><label for="reportarea">レスポンス内容</label></dt>
         <dd>
-          <textarea id="responsearea" name="responsearea" th:field="*{response}" th:errorclass="error-input" rows="10" cols="100"></textarea>
+          <textarea id="reportarea" name="responsearea" th:field="*{response}" th:errorclass="error-input" rows="10" cols="100"></textarea>
           <span th:if="${#fields.hasErrors('response')}" th:errors="*{response}" class="error-messages">error!</span>
         </dd>
       </dl>

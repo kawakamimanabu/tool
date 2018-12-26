@@ -10,7 +10,7 @@ import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.Staff;
 
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-  @Query("SELECT r FROM Report r WHERE r.staffId=:staffId ORDER BY r.reportId DESC")
+  @Query("SELECT r FROM Report r WHERE r.staff.staffId=:staffId ORDER BY r.reportId DESC")
   List<Report> findAllByStaff(@Param("staffId") Staff staff);
   
 }

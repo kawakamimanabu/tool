@@ -21,7 +21,7 @@ public class LoginStaffDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String staffId) throws UsernameNotFoundException {
     Optional<Staff> optionalStaff = staffRepository.findById(staffId);
     if (!optionalStaff.isPresent()) {
-      throw new UsernameNotFoundException("The requested tanto is not found.");
+      throw new UsernameNotFoundException("Staff not found.");
     }
     return new LoginStaffDetails(optionalStaff.get());
   }
