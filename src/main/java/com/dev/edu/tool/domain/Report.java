@@ -33,6 +33,7 @@ public class Report {
   @Column(nullable = false)
   private LocalDateTime reportedWhen;
   
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "mediumtext")
   private String report;
+
 }

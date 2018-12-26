@@ -37,6 +37,6 @@ public class Comment {
   @Column(nullable = false)
   private LocalDateTime commentedWhen;
   
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "mediumtext")
   private String comment;
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dev.edu.tool.domain.Comment;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.repository.StaffRepository;
@@ -64,7 +63,6 @@ public class StaffService {
         "ce5f8d0c5790bf82e9b253d362feb51ba02853301ae24149b260bd30acb00f1b2a0d8b18bbff97a9");
     staff.setRole(0);
     staff.setReports(new ArrayList<Report>());
-    staff.setComments(new ArrayList<Comment>());
     create(staff);
     return staff;
   }

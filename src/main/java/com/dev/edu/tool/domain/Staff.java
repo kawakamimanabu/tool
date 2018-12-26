@@ -3,6 +3,7 @@ package com.dev.edu.tool.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -21,9 +22,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "STAFFS")
-@ToString(exclude = {"reports", "comments"})
+@ToString(exclude = "reports")
 public class Staff {
   @Id
+  @Column(name = "staff_id", unique = true, nullable = false)
   private String staffId;
   @JsonIgnore
   private String name;
@@ -35,8 +37,4 @@ public class Staff {
   @JsonIgnore
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "report")
   private List<Report> reports;
-
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "report")
-  private List<Comment> comments;
 }
