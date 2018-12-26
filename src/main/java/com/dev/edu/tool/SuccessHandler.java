@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class SuccessHandler implements AuthenticationSuccessHandler {
 
   protected static final Logger logger = LoggerFactory.getLogger(SuccessHandler.class);
-  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+  RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
   
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -37,7 +37,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
       logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
       return;
     }
-    response.sendRedirect(targetUrl);
+    redirectStrategy.sendRedirect(request, response, targetUrl);
   }
 
   private String determineTargetUrl(Authentication authentication) {
@@ -51,7 +51,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         break;
       }
     }
-    return isAdmin ? "manage/list" : "report/list";
+    return isAdmin ? "/manage/list.html" : "/report/list";
   }
 
   protected void clearAuthenticationAttributes(HttpServletRequest request) {
