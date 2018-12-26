@@ -48,7 +48,7 @@ public class ReportController {
   String editForm(@RequestParam Integer id, ReportForm form) {
     Report dummyResponse = reportService.findOne(id);
     BeanUtils.copyProperties(dummyResponse, form);
-    return "responses/edit";
+    return "reports/edit";
   }
   
   @PostMapping(path = "edit")

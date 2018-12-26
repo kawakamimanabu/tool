@@ -1,5 +1,6 @@
 package com.dev.edu.tool;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -7,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -15,6 +15,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private static String ROLE_USER = "USER";
   private static String ROLE_ADMIN = "ADMIN";
 
+  @Autowired
+  private SuccessHandler successHandler;
+  
   @Override
   public void configure(WebSecurity web) throws Exception {
     web.ignoring().antMatchers("/webjars/**", "/css/**");
@@ -36,17 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/loginForm")
             .failureUrl("/loginForm?error")
 //            .defaultSuccessUrl("/reports", true)
-            .successHandler(mySuccessHandler())
+            .successHandler(successHandler)
             .usernameParameter("staffId").passwordParameter("password")
         .and()
         .logout()
             .logoutSuccessUrl("/loginForm")
             .invalidateHttpSession(true);
-  }
-
-  @Bean
-  private AuthenticationSuccessHandler mySuccessHandler() {
-    return new SuccessHandler();
   }
 
   @Bean
