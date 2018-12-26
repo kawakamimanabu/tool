@@ -10,7 +10,7 @@
 <body>
 <div class="container">
   <h1>報告一覧</h1>
-  <p>担当者コード&nbsp;<span sec:authentication="principal.tanto.tantocd">duke</span>&nbsp;さん、お疲れ様です。</p>
+  <p><span sec:authentication="principal.tanto.tantocd">duke</span>&nbsp;さん、お疲れ様です。</p>
   
   <form th:action="@{/logout}" method="post"><input type="submit" class="btn btn-default btn-xs" value="ログアウト" /></form>
   
@@ -22,11 +22,11 @@
         <th>参照</th>
       </tr>
       <tr th:each="report : ${reports}">
-        <td th:text="${report.createdWhen}">報告日時</td>
+        <td th:text="${report.reportedWhen}">報告日時</td>
         <td>
-        <form th:action="@{/responses/edit}" method="post">
+        <form th:action="@{/reports/detail}" method="post">
           <input class="btn btn-default" type="submit" name="form" value="参照"/>
-          <input type="hidden" name="id" th:value="${report.id}" />
+          <input type="hidden" name="id" th:value="${report.reportId}" />
         </form>
         </td>
       </tr>

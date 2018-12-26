@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  // private static String ROLE_USER = "USER";
+  private static String ROLE_USER = "USER";
   private static String ROLE_ADMIN = "ADMIN";
 
   @Override
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/loginForm").permitAll()
             .antMatchers("/manage/**").hasRole(ROLE_ADMIN)
             .antMatchers("/setting/**").permitAll()
-            .antMatchers("/report/**").permitAll()
+            .antMatchers("/reports/**").permitAll()
             .antMatchers("/html/**").permitAll()
             .anyRequest().authenticated()
         .and()
@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginProcessingUrl("/login")
             .loginPage("/loginForm")
             .failureUrl("/loginForm?error")
-            .defaultSuccessUrl("/responses", true)
+            .defaultSuccessUrl("/reports", true)
+            
             .usernameParameter("id").passwordParameter("password")
         .and()
         .logout()
