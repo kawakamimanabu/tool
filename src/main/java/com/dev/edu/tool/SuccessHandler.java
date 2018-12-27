@@ -51,7 +51,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         break;
       }
     }
-    return isAdmin ? "/manage/list.html" : "/report/list";
+    return isAdmin ? "/manage/" : "/report/";
   }
 
   protected void clearAuthenticationAttributes(HttpServletRequest request) {

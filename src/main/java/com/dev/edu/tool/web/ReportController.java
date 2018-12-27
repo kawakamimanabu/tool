@@ -23,7 +23,7 @@ import com.dev.edu.tool.service.ReportService;
 
 
 @Controller
-@RequestMapping("reports")
+@RequestMapping("report")
 public class ReportController extends BaseController {
   
   @Autowired
@@ -38,14 +38,14 @@ public class ReportController extends BaseController {
   public String list(Model model, @AuthenticationPrincipal LoginStaffDetails tantoDetails) {
     List<Report> reports = reportService.findAllByStaff(tantoDetails.getStaff());
     model.addAttribute("reports", reports);
-    return "report/list";
+    return "report/list.html";
   }
   
   @PostMapping(path = "detail", params = "form")
   public String editForm(@RequestParam Integer id, ReportForm form) {
     Report report = reportService.findOne(id);
     BeanUtils.copyProperties(report, form);
-    return "report/detail";
+    return "report/detail.html";
   }
   
   @PostMapping(path = "detail")
