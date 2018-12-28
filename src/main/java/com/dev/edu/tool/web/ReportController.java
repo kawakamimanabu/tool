@@ -3,7 +3,6 @@ package com.dev.edu.tool.web;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,9 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dev.edu.tool.domain.Comment;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.Staff;
+import com.dev.edu.tool.form.DetailForm;
 import com.dev.edu.tool.form.ReportForm;
+import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
 import com.dev.edu.tool.service.ReportService;
 
@@ -29,6 +31,8 @@ public class ReportController extends BaseController {
   
   @Autowired
   ReportService reportService;
+  @Autowired
+  CommentService commentService;
   
   @ModelAttribute
   ReportForm setUpForm() {
@@ -44,10 +48,27 @@ public class ReportController extends BaseController {
   }
   
   @PostMapping(path = "detail", params = "form")
-  public String showDetail(@RequestParam Integer id, ReportForm form) {
+  public String showDetail(Model model, @RequestParam Integer id, ReportForm form) {
     Report report = reportService.findOne(id);
-    BeanUtils.copyProperties(report, form);
+    List<Comment> comments = commentService.findAllByReport(report);
+//    form.setReport(report);
+//    form.setStaff(report.getStaff());
+    model.addAttribute("report", report);
+    model.addAttribute("comments", comments);
     return "report/detail.html";
+  }
+
+  @PostMapping(path = "add", params = "form")
+  public String addComment( @RequestParam Integer id, @Validated DetailForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    if (result.hasErrors()) {
+      return "";
+    }
+    Report report = reportService.findOne(id);
+    Comment comment = new Comment();
+    comment.setReport(report);
+    comment.setCommentedWhen(new Date());
+    reportService.create(report, staffDetails.getStaff());
+    return "redirect:/report";
   }
   
   @PostMapping(path = "create", params = "form")

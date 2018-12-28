@@ -1,6 +1,6 @@
 package com.dev.edu.tool.domain;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class Comment {
   private Staff staff;
   
   @Column(nullable = false)
-  private LocalDateTime commentedWhen;
+  private Date commentedWhen;
   
   @Column(nullable = false, columnDefinition = "mediumtext")
   private String comment;
