@@ -18,7 +18,12 @@
       </dd>
       <dt><label for="reportarea">報告内容</label></dt>
       <dd>
-        <p th:text="*{report.report}"/>
+        <th:block th:if="*{report.report}">
+          <th:block th:each="str, stat : ${report.report.split('\r\n|\r|\n', -1)}">
+            <th:block th:text="${str}"/>
+            <br th:if="${!stat.last}"/>
+          </th:block>
+        </th:block>
       </dd>
     </dl>
 
