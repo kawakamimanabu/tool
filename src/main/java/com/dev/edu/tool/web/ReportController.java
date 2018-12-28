@@ -1,6 +1,6 @@
 package com.dev.edu.tool.web;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Report;
+import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.form.ReportForm;
 import com.dev.edu.tool.service.LoginStaffDetails;
 import com.dev.edu.tool.service.ReportService;
@@ -35,30 +36,44 @@ public class ReportController extends BaseController {
   }
   
   @GetMapping
-  public String list(Model model, @AuthenticationPrincipal LoginStaffDetails tantoDetails) {
-    List<Report> reports = reportService.findAllByStaff(tantoDetails.getStaff());
+  public String list(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    Staff staff = staffDetails.getStaff();
+    List<Report> reports = reportService.findAllByStaff(staff);
     model.addAttribute("reports", reports);
     return "report/list.html";
   }
   
   @PostMapping(path = "detail", params = "form")
-  public String editForm(@RequestParam Integer id, ReportForm form) {
+  public String showDetail(@RequestParam Integer id, ReportForm form) {
     Report report = reportService.findOne(id);
     BeanUtils.copyProperties(report, form);
     return "report/detail.html";
   }
   
-  @PostMapping(path = "detail")
-  public String edit(@RequestParam Integer id, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  @PostMapping(path = "create", params = "form")
+  public String create(@Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
-      return editForm(id, form);
+      return "";//editForm(id, form);
     }
-    Report report = reportService.findOne(id);
-    report.setReport(form.getReport().getReport());
-    report.setReportedWhen(LocalDateTime.now());
-    reportService.update(report, staffDetails.getStaff());
+    Report report = new Report();
+    report.setReport(form.getContent());
+    report.setStaff(staffDetails.getStaff());
+    report.setReportedWhen(new Date());
+    reportService.create(report, staffDetails.getStaff());
     return "redirect:/report";
   }
+  
+//  @PostMapping(path = "detail")
+//  public String edit(@RequestParam Integer id, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+//    if (result.hasErrors()) {
+//      return editForm(id, form);
+//    }
+//    Report report = reportService.findOne(id);
+//    report.setReport(form.getReport().getReport());
+//    report.setReportedWhen(LocalDateTime.now());
+//    reportService.update(report, staffDetails.getStaff());
+//    return "redirect:/report";
+//  }
   
   @PostMapping(path = "edit", params = "goToTop")
   public String goToTop() {

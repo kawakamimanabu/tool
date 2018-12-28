@@ -1,7 +1,9 @@
 package com.dev.edu.tool.domain;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +36,14 @@ public class Report {
   private Staff staff;
   
   @Column(nullable = false)
-  private LocalDateTime reportedWhen;
+  private Date reportedWhen;
   
   @Column(nullable = false, columnDefinition = "mediumtext")
   private String report;
+  
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "comment")
+  private List<Comment> comments;
+  
 
 }

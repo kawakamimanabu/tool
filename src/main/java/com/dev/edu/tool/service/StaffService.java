@@ -1,13 +1,11 @@
 package com.dev.edu.tool.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.repository.StaffRepository;
 
@@ -62,7 +60,6 @@ public class StaffService {
     staff.setEncodedPassword(
         "ce5f8d0c5790bf82e9b253d362feb51ba02853301ae24149b260bd30acb00f1b2a0d8b18bbff97a9");
     staff.setRole(0);
-    staff.setReports(new ArrayList<Report>());
     create(staff);
     return staff;
   }

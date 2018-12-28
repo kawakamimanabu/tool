@@ -21,7 +21,7 @@ public class ReportService {
   }
 
   public List<Report> findAllByStaff(Staff staff) {
-    return reportRepository.findAllByStaff(staff);
+    return reportRepository.findAllByStaff(staff.getStaffId());
   }
 
   
