@@ -66,9 +66,10 @@ public class ReportController extends BaseController {
     Report report = reportService.findOne(id);
     Comment comment = new Comment();
     comment.setReport(report);
+    comment.setStaff(staffDetails.getStaff());
     comment.setCommentedWhen(new Date());
     reportService.create(report, staffDetails.getStaff());
-    return "redirect:/report";
+    return "redirect:/report/detail";
   }
   
   @PostMapping(path = "create", params = "form")
