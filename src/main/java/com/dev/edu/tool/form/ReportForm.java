@@ -9,8 +9,6 @@ import lombok.Data;
 
 @Data
 public class ReportForm {
-  private Staff staff;
-  private Report report;
   @NotNull
   private String content;
 }
