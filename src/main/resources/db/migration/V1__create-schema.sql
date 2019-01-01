@@ -1,4 +1,4 @@
-CREATE TABLE `STAFFS` (
+CREATE TABLE `staffs` (
   `staff_id` varchar(60) NOT NULL,
   `name` varchar(256) CHARACTER SET utf8 NOT NULL,
   `encoded_password` varchar(256) CHARACTER SET utf8 NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE `STAFFS` (
   PRIMARY KEY (`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `REPORTS` (
+CREATE TABLE `reports` (
   `report_id` int(11) NOT NULL AUTO_INCREMENT,
   `staff_id` varchar(60) CHARACTER SET utf8 NOT NULL,
   `reported_when` timestamp NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE `REPORTS` (
   CONSTRAINT `FK_REPORTS_STAFFID` FOREIGN KEY (`staff_id`) REFERENCES `STAFFS` (`staff_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `COMMENTS` (
+CREATE TABLE `comments` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
   `report_id` int(11) NOT NULL,
   `staff_id` varchar(60) CHARACTER SET utf8 NOT NULL,

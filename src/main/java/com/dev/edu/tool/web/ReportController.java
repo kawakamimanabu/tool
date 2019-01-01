@@ -72,7 +72,7 @@ public class ReportController extends BaseController {
     return "redirect:/report/detail";
   }
   
-  @PostMapping(path = "create", params = "form")
+  @PostMapping(path = "create")
   public String create(@Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return "";//editForm(id, form);

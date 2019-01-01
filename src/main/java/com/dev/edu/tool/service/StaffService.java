@@ -58,7 +58,7 @@ public class StaffService {
     Staff staff = new Staff();
     staff.setStaffId(mailAddress);
     staff.setEncodedPassword(
-        "ce5f8d0c5790bf82e9b253d362feb51ba02853301ae24149b260bd30acb00f1b2a0d8b18bbff97a9");
+        "$2a$08$ggO8JApds/zH4Lju/PBfDuJLIBlp8eZoiwUXzW.2S1IJ0.sUvPDBa");
     staff.setRole(0);
     create(staff);
     return staff;
