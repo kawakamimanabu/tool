@@ -47,12 +47,10 @@ public class ReportController extends BaseController {
     return "report/list.html";
   }
   
-  @PostMapping(path = "detail", params = "form")
-  public String showDetail(Model model, @RequestParam Integer id, ReportForm form) {
+  @PostMapping(path = "detail")
+  public String showDetail(Model model, @RequestParam Integer id) {
     Report report = reportService.findOne(id);
     List<Comment> comments = commentService.findAllByReport(report);
-//    form.setReport(report);
-//    form.setStaff(report.getStaff());
     model.addAttribute("report", report);
     model.addAttribute("comments", comments);
     return "report/detail.html";
@@ -70,6 +68,11 @@ public class ReportController extends BaseController {
     comment.setCommentedWhen(new Date());
     reportService.create(report, staffDetails.getStaff());
     return "redirect:/report/detail";
+  }
+  
+  @PostMapping(path = "add", params = "goToTop")
+  public String goToTop() {
+    return "redirect:/report";
   }
   
   @PostMapping(path = "create")
@@ -96,11 +99,6 @@ public class ReportController extends BaseController {
 //    reportService.update(report, staffDetails.getStaff());
 //    return "redirect:/report";
 //  }
-  
-  @PostMapping(path = "edit", params = "goToTop")
-  public String goToTop() {
-    return "redirect:/report";
-  }
   
 //  @PostMapping(path = "download")
 //  ResponseEntity<byte[]> download(@AuthenticationPrincipal LoginTantoDetails tantoDetails) throws IOException {
