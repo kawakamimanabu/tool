@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dev.edu.tool.domain.Comment;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.Staff;
-import com.dev.edu.tool.form.DetailForm;
+import com.dev.edu.tool.form.CommentForm;
 import com.dev.edu.tool.form.ReportForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
@@ -56,8 +56,8 @@ public class ReportController extends BaseController {
     return "report/detail.html";
   }
 
-  @PostMapping(path = "add", params = "form")
-  public String addComment( @RequestParam Integer id, @Validated DetailForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  @PostMapping(path = "add")
+  public String addComment(@RequestParam Integer id, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return "";
     }
@@ -66,7 +66,7 @@ public class ReportController extends BaseController {
     comment.setReport(report);
     comment.setStaff(staffDetails.getStaff());
     comment.setCommentedWhen(new Date());
-    reportService.create(report, staffDetails.getStaff());
+    commentService.create(comment, staffDetails.getStaff());
     return "redirect:/report/detail";
   }
   
