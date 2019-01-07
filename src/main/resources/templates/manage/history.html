@@ -3,41 +3,31 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8"/>
-  <title>進捗報告一覧</title>
+  <title>報告一覧</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
 <div class="container">
-  <h1>進捗報告一覧</h1>
-  <form class="form-signin" th:action="@{/logout}" method="post"><input type="submit" class="btn btn-default btn-xs" value="ログアウト" /></form>
-  <hr/>
-  <div class="col-sm-12">
+  <h2><div th:text="${staff.name} + 'さん 報告一覧'"/></h2>
+    <hr/>
     <table class="table table-striped table-bordered table-condensed">
       <tr>
-        <th>報告した人</th>
-        <th>最終報告日時</th>
-        <th>最終コメント日時</th>
-        <th>最終コメントした人</th>
+        <th>報告日時</th>
+        <th>コメント追加日時</th>
         <th>参照</th>
       </tr>
-      <tr th:each="status : ${reportStatus}">
-        <td th:text="${status.name} + ' さん'">報告した人</td>
-        <td th:text="${status.lastReported}">最終報告日時</td>
-        <td th:text="${status.lastCommented}">最終コメント日時</td>
-        <td><div th:if="${status.lastCommentedBy}">
-          <div th:text="${status.lastCommentedBy} + ' さん'"></div>
-          </div>
-        </td>
+      <tr th:each="report : ${reports}">
+        <td th:text="${report.reportedWhen}">報告日時</td>
+        <td th:text="${report.reportedWhen}">コメント追加日時</td>
         <td>
-          <form th:action="@{/manage/history}" method="post">
+          <form th:action="@{/manage/detail}" method="post">
             <input class="btn btn-default" type="submit" name="form" value="参照"/>
-            <input type="hidden" name="staffId" th:value="${status.staffId}" />
+            <input type="hidden" name="reportId" th:value="${report.reportId}" />
           </form>
         </td>
       </tr>
     </table>
-  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"  th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>

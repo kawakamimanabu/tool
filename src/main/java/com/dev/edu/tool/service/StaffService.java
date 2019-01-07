@@ -25,27 +25,27 @@ public class StaffService {
     return staffRepository.findAll();
   }
 
-  public Staff findOne(String tantoCd) {
-    return staffRepository.getOne(tantoCd);
+  public Staff findOne(String staffId) {
+    return staffRepository.getOne(staffId);
   }
 
   /**
    * Staff を DB に新規追加します。
    * 
-   * @param tanto
+   * @param staff
    * @return
    */
-  public Staff create(Staff tanto) {
-    return staffRepository.save(tanto);
+  public Staff create(Staff staff) {
+    return staffRepository.save(staff);
   }
 
   /**
    * Staff を DB から削除します。
    * 
-   * @param tanto
+   * @param staff
    */
-  public void delete(Staff tanto) {
-    staffRepository.delete(tanto);
+  public void delete(Staff staff) {
+    staffRepository.delete(staff);
   }
 
   /**
