@@ -30,9 +30,9 @@ import com.dev.edu.tool.service.ReportService;
 public class ReportController extends BaseController {
   
   @Autowired
-  ReportService reportService;
+  private ReportService reportService;
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
   
   @ModelAttribute
   ReportForm setUpForm() {

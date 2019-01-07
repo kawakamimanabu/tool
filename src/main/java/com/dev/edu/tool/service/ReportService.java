@@ -23,7 +23,6 @@ public class ReportService {
   public List<Report> findAllByStaff(Staff staff) {
     return reportRepository.findAllByStaff(staff.getStaffId());
   }
-
   
   public Report findOne(Integer id) {
     return reportRepository.getOne(id);

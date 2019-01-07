@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReportStatus {
   @Id
+  private String staffId;
   private Integer reportId;
   private String name;
   private Date lastReported;
