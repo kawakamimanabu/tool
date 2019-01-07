@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class CommentForm {
+  private int reportId;
   @NotNull
   private String comment;
 }

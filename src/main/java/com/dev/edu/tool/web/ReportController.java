@@ -47,9 +47,19 @@ public class ReportController extends BaseController {
     return "report/list.html";
   }
   
+//  @GetMapping(path = "detail")
+//  public String detail(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+//    Report report = reportService.findOne(1);
+//    List<Comment> comments = commentService.findAllByReport(report);
+//    model.addAttribute("report", report);
+//    model.addAttribute("comments", comments);
+//    model.addAttribute("commentForm", new CommentForm());
+//    return "report/detail.html";
+//  }
+  
   @PostMapping(path = "detail")
-  public String showDetail(Model model, @RequestParam Integer id) {
-    Report report = reportService.findOne(id);
+  public String showDetail(Model model, @RequestParam Integer reportId) {
+    Report report = reportService.findOne(reportId);
     List<Comment> comments = commentService.findAllByReport(report);
     model.addAttribute("report", report);
     model.addAttribute("comments", comments);
@@ -58,17 +68,18 @@ public class ReportController extends BaseController {
   }
 
   @PostMapping(path = "add")
-  public String addComment(@RequestParam Integer id, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String addComment(@RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return "";
     }
-    Report report = reportService.findOne(id);
+    Report report = reportService.findOne(reportId);
     Comment comment = new Comment();
     comment.setReport(report);
     comment.setStaff(staffDetails.getStaff());
     comment.setCommentedWhen(new Date());
+    comment.setComment(form.getComment());
     commentService.create(comment, staffDetails.getStaff());
-    return "redirect:/report/detail";
+    return "redirect:/report";
   }
   
   @PostMapping(path = "add", params = "goToTop")
@@ -88,29 +99,4 @@ public class ReportController extends BaseController {
     reportService.create(report, staffDetails.getStaff());
     return "redirect:/report";
   }
-  
-//  @PostMapping(path = "detail")
-//  public String edit(@RequestParam Integer id, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-//    if (result.hasErrors()) {
-//      return editForm(id, form);
-//    }
-//    Report report = reportService.findOne(id);
-//    report.setReport(form.getReport().getReport());
-//    report.setReportedWhen(LocalDateTime.now());
-//    reportService.update(report, staffDetails.getStaff());
-//    return "redirect:/report";
-//  }
-  
-//  @PostMapping(path = "download")
-//  ResponseEntity<byte[]> download(@AuthenticationPrincipal LoginTantoDetails tantoDetails) throws IOException {
-//    HttpHeaders header = new HttpHeaders();
-//    header.add("Content-Type", "text/csv; charset=UTF-8");
-//    String now = DateTimeFormatter.ofPattern("uuuuMMddHHmmss").format(LocalDateTime.now());
-//    header.setContentDispositionFormData("filename", "apimock_" + now + ".tsv");
-//    List<DummyResponse> dummyResponses = reportService.findAll();
-//    Function<DummyResponse, String> convert = dummy -> {return dummy.getId() + "\t" + dummy.getResponse();};
-//    //String key = DigestUtils.md5DigestAsHex((tantoDetails.getTanto().getTantocd() + "_happyApiMocking").getBytes()) + "\n";
-//    String csv = dummyResponses.stream().map(convert).collect(Collectors.joining("\n"));
-//    return new ResponseEntity<>(csv.getBytes("UTF-8"), header, HttpStatus.OK);
-//  }
 }

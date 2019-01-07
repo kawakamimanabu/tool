@@ -41,7 +41,7 @@
         <td>
           <form th:action="@{/report/detail}" method="post">
             <input class="btn btn-default" type="submit" name="form" value="参照"/>
-            <input type="hidden" name="id" th:value="${report.reportId}" />
+            <input type="hidden" name="reportId" th:value="${report.reportId}" />
           </form>
         </td>
       </tr>
