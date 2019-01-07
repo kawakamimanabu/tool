@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dev.edu.tool.domain.Comment;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.ReportStatus;
 import com.dev.edu.tool.domain.Staff;
+import com.dev.edu.tool.form.CommentForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
 import com.dev.edu.tool.service.ReportService;
@@ -33,14 +35,14 @@ public class ManageContoller extends BaseController {
   private CommentService commentService;
   
   @GetMapping
-  public String list(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     List<ReportStatus> reportStatus = reportStatusService.findAll();
     model.addAttribute("reportStatus", reportStatus);
     return "manage/list.html";
   }
   
   @PostMapping(path="history")
-  public String history(Model model, @RequestParam String staffId) {
+  public String showHistory(Model model, @RequestParam String staffId) {
     Staff staff = staffService.findOne(staffId);
     List<Report> reports = reportService.findAllByStaff(staff);
     model.addAttribute("staff", staff);
@@ -49,9 +51,12 @@ public class ManageContoller extends BaseController {
   }
 
   @PostMapping(path="detail")
-  public String detail(Model model, @RequestParam Integer reportId) {
+  public String showDetail(Model model, @RequestParam Integer reportId) {
     Report report = reportService.findOne(reportId);
+    List<Comment> comments = commentService.findAllByReport(report);
     model.addAttribute("report", report);
+    model.addAttribute("comments", comments);
+    model.addAttribute("commentForm", new CommentForm());
     return "manage/detail.html";
   }
   

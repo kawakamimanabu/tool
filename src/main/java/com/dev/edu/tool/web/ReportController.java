@@ -40,7 +40,7 @@ public class ReportController extends BaseController {
   }
   
   @GetMapping
-  public String list(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     Staff staff = staffDetails.getStaff();
     List<Report> reports = reportService.findAllByStaff(staff);
     model.addAttribute("reports", reports);
@@ -88,7 +88,7 @@ public class ReportController extends BaseController {
   }
   
   @PostMapping(path = "create")
-  public String create(@Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String createReport(@Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return "";//editForm(id, form);
     }
