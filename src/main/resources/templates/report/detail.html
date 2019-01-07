@@ -27,14 +27,13 @@
       </dd>
     </dl>
 
-    <form th:action="@{/report/add}" th:object="${commentForm}" method="post">
+    <form th:action="@{/report/add}" th:object="${commentForm}" class="form-horizontal" method="post">
       <dl>
         <dt><label for="commentarea">コメント内容</label></dt>
         <dd>
-        <!-- 
           <textarea id="commentarea" name="commentarea" th:field="*{comment}" th:errorclass="error-input" rows="10" cols="100"></textarea>
           <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="error-messages">error!</span>
-        </dd> -->
+        </dd>
       </dl>
       <div class="form-group">
         <div class="col-sm-10">
@@ -43,7 +42,6 @@
         </div>
       </div>
     </form>
-    <hr/>
     <table class="table table-striped table-bordered table-condensed">
       <tr>
         <th>コメント追加日時</th>

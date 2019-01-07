@@ -53,6 +53,7 @@ public class ReportController extends BaseController {
     List<Comment> comments = commentService.findAllByReport(report);
     model.addAttribute("report", report);
     model.addAttribute("comments", comments);
+    model.addAttribute("commentForm", new CommentForm());
     return "report/detail.html";
   }
 
