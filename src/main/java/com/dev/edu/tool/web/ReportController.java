@@ -17,18 +17,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Comment;
 import com.dev.edu.tool.domain.Report;
+import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.form.CommentForm;
 import com.dev.edu.tool.form.ReportForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
+import com.dev.edu.tool.service.ReportHistoryService;
 import com.dev.edu.tool.service.ReportService;
 
 
 @Controller
 @RequestMapping("report")
 public class ReportController extends BaseController {
-  
+  @Autowired
+  private ReportHistoryService reportHistoryService;
   @Autowired
   private ReportService reportService;
   @Autowired
@@ -42,7 +45,8 @@ public class ReportController extends BaseController {
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     Staff staff = staffDetails.getStaff();
-    List<Report> reports = reportService.findAllByStaff(staff);
+    //List<Report> reports = reportService.findAllByStaff(staff);
+    List<ReportHistory> reports = reportHistoryService.findHistory(staff);
     model.addAttribute("reports", reports);
     return "report/list.html";
   }

@@ -58,3 +58,18 @@ WHERE
 WHERE
 role=0
 ORDER BY s0.staff_id;
+
+CREATE VIEW report_history AS
+SELECT
+ r1.report_id
+ ,r1.staff_id
+ ,r1.reported_when
+ ,r1.report
+ ,c1.commented_when AS last_commented
+ ,s2.name AS last_commented_by
+FROM
+ reports r1 
+ LEFT JOIN staffs s1 ON r1.staff_id=s1.staff_id
+ LEFT JOIN comments c1 LEFT JOIN staffs s2 ON c1.staff_id=s2.staff_id ON r1.report_id=c1.report_id
+WHERE
+ c1.commented_when = (SELECT MAX(commented_when) FROM comments c2 WHERE r1.report_id=c2.report_id) OR c1.commented_when IS NULL;
