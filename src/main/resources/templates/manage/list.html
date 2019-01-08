@@ -20,15 +20,15 @@
     <table class="table table-striped table-bordered table-condensed">
       <tr>
         <th>報告した人</th>
-        <th>最終報告日時</th>
-        <th>最終コメント日時</th>
-        <th>最終コメントした人</th>
+        <th>最新報告日時</th>
+        <th>最新コメント日時</th>
+        <th>最新コメントした人</th>
         <th>参照</th>
       </tr>
       <tr th:each="status : ${reportStatus}">
         <td th:text="${status.name} + ' さん'">報告した人</td>
-        <td th:text="${status.lastReported}">最終報告日時</td>
-        <td th:text="${status.lastCommented}">最終コメント日時</td>
+        <td th:text="${status.lastReported}">最新報告日時</td>
+        <td th:text="${status.lastCommented}">最新コメント日時</td>
         <td><div th:if="${status.lastCommentedBy}">
           <div th:text="${status.lastCommentedBy} + ' さん'"></div>
           </div>
