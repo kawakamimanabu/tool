@@ -44,24 +44,25 @@ public class ManageContoller extends BaseController {
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     List<ReportStatus> reportStatus = reportStatusService.findAll();
-    model.addAttribute("staff", staffDetails.getStaff());
     model.addAttribute("reportStatus", reportStatus);
     return "manage/list.html";
   }
   
-  @PostMapping(path = "history", params = "goToHistory")
+  @PostMapping(path = "add", params = "goToHistory")
   public String goToHistory(Model model, @RequestParam Integer reportId) {
     Report report = reportService.findOne(reportId);
-    List<Comment> comments = commentService.findAllByReport(report);
-    model.addAttribute("report", report);
-    model.addAttribute("comments", comments);
-    model.addAttribute("commentForm", new CommentForm());
-    return "manage/detail.html";
+    Staff staff = staffService.findOne(report.getStaff().getStaffId());
+    List<ReportHistory> reports = reportHistoryService.findHistory(staff);
+    model.addAttribute("staff", staff);
+    model.addAttribute("reports", reports);
+    return "manage/history.html";
   }
   
   @PostMapping(path = "history", params = "goToList")
-  public String goToList() {
-    return "redirect:/manage";
+  public String goToList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    List<ReportStatus> reportStatus = reportStatusService.findAll();
+    model.addAttribute("reportStatus", reportStatus);
+    return "manage/list.html";
   }
   
   @PostMapping(path="history")
@@ -76,7 +77,9 @@ public class ManageContoller extends BaseController {
   @PostMapping(path="detail")
   public String showDetail(Model model, @RequestParam Integer reportId) {
     Report report = reportService.findOne(reportId);
+    Staff staff = staffService.findOne(report.getStaff().getStaffId());
     List<Comment> comments = commentService.findAllByReport(report);
+    model.addAttribute("staff", staff);
     model.addAttribute("report", report);
     model.addAttribute("comments", comments);
     model.addAttribute("commentForm", new CommentForm());
@@ -84,7 +87,7 @@ public class ManageContoller extends BaseController {
   }
 
   @PostMapping(path = "add")
-  public String addComment(@RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String addComment(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
       return "";
     }
@@ -95,7 +98,11 @@ public class ManageContoller extends BaseController {
     comment.setCommentedWhen(new Date());
     comment.setComment(form.getComment());
     commentService.create(comment, staffDetails.getStaff());
-    return "redirect:/manage";
+    Staff staff = staffService.findOne(report.getStaff().getStaffId());
+    List<ReportHistory> reports = reportHistoryService.findHistory(staff);
+    model.addAttribute("staff", staff);
+    model.addAttribute("reports", reports);
+    return "manage/history.html";
   }
   
 }
