@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,12 +34,16 @@ public class SettingController extends BaseController {
   private StaffService staffService;
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  @ModelAttribute
+  ConfigForm setUpForm() {
+    return new ConfigForm();
+  }
   
   @PostMapping
   public String showProfile(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     Staff staff = staffDetails.getStaff();
     model.addAttribute("staff", staff);
-    model.addAttribute("configForm", new ConfigForm());
     return "setting/resetpassword.html";
   }
 
