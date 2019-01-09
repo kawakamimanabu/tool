@@ -2,6 +2,7 @@ package com.dev.edu.tool.form;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.dev.edu.tool.constraint.FieldMatch;
 
@@ -14,8 +15,10 @@ public class ConfigForm {
   private String staffId;
   @NotBlank(message="現在のパスワードが入力されていません")
   private String currentPassword;
+  @Size(min = 8)
   @NotBlank(message="新しいパスワードが入力されていません")
   private String newPassword;
+  @Size(min = 8)
   @NotBlank(message="新しいパスワード(確認)が入力されていません")
   private String newPasswordConfirm;
 }

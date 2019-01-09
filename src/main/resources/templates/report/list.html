@@ -14,6 +14,9 @@
   <form th:action="@{/logout}" method="post">
     <input type="submit" class="btn btn-default btn-xs" value="ログアウト" />
   </form>
+  <form class="form-signin" th:action="@{/setting}" method="post">
+    <input type="submit" class="btn btn-default btn-xs" value="パスワード更新" />
+  </form>
   
   <div class="col-sm-12">
     <form th:action="@{/report/create}" th:object="${reportForm}" class="form-horizontal" method="post">
