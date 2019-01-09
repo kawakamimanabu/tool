@@ -61,9 +61,9 @@ public class ReportController extends BaseController {
   }
 
   @PostMapping(path = "add")
-  public String addComment(@RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String addComment(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
-      return "";
+      return showList(model, staffDetails);
     }
     Report report = reportService.findOne(reportId);
     Comment comment = new Comment();
@@ -90,6 +90,6 @@ public class ReportController extends BaseController {
     report.setStaff(staffDetails.getStaff());
     report.setReportedWhen(new Date());
     reportService.create(report, staffDetails.getStaff());
-    return "redirect:/report";
+    return showList(model, staffDetails);
   }
 }
