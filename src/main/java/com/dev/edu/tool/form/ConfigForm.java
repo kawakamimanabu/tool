@@ -1,19 +1,21 @@
 package com.dev.edu.tool.form;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.dev.edu.tool.constraint.FieldMatch;
 
 import lombok.Data;
 
 @Data
+@FieldMatch(first = "newPassword", second = "newPasswordConfirm", message = "パスワードが一致しません。")
 public class ConfigForm {
   @NotNull
   private String staffId;
-  @NotNull
-  private String name;
-  @NotNull
+  @NotBlank(message="現在のパスワードが入力されていません")
   private String currentPassword;
-  @NotNull
+  @NotBlank(message="新しいパスワードが入力されていません")
   private String newPassword;
-  @NotNull
+  @NotBlank(message="新しいパスワード(確認)が入力されていません")
   private String newPasswordConfirm;
 }
