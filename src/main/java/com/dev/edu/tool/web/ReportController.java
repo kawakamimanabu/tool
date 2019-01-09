@@ -90,6 +90,6 @@ public class ReportController extends BaseController {
     report.setStaff(staffDetails.getStaff());
     report.setReportedWhen(new Date());
     reportService.create(report, staffDetails.getStaff());
-    return showList(model, staffDetails);
+    return "redirect:/report";
   }
 }
