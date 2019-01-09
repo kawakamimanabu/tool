@@ -63,7 +63,7 @@ public class ReportController extends BaseController {
   @PostMapping(path = "add")
   public String addComment(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
-      return showList(model, staffDetails);
+      return showDetail(model, reportId);
     }
     Report report = reportService.findOne(reportId);
     Comment comment = new Comment();
@@ -72,7 +72,7 @@ public class ReportController extends BaseController {
     comment.setCommentedWhen(new Date());
     comment.setComment(form.getComment());
     commentService.create(comment, staffDetails.getStaff());
-    return "redirect:/report";
+    return showDetail(model, reportId);
   }
   
   @PostMapping(path = "add", params = "goToTop")
