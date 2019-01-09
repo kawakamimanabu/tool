@@ -1,11 +1,11 @@
 package com.dev.edu.tool.form;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
 public class ReportForm {
-  @NotNull
+  @NotBlank(message="レポート内容を記載してください")
   private String content;
 }

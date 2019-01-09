@@ -30,7 +30,7 @@
       <dl>
         <dt><label for="commentarea">コメント内容</label></dt>
         <dd>
-          <textarea id="commentarea" name="commentarea" th:field="*{comment}" th:errorclass="error-input" rows="10" cols="100"></textarea>
+          <textarea id="commentarea" name="commentarea" class="form-control" th:field="*{comment}" th:errorclass="error-input" rows="10"></textarea>
           <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="error-messages">error!</span>
         </dd>
       </dl>

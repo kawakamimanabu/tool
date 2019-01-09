@@ -1,12 +1,12 @@
 package com.dev.edu.tool.form;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
 public class CommentForm {
   private int reportId;
-  @NotNull
+  @NotBlank(message="コメント内容を記載してください")
   private String comment;
 }

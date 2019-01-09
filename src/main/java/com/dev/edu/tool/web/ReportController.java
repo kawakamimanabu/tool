@@ -45,21 +45,10 @@ public class ReportController extends BaseController {
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     Staff staff = staffDetails.getStaff();
-    //List<Report> reports = reportService.findAllByStaff(staff);
     List<ReportHistory> reports = reportHistoryService.findHistory(staff);
     model.addAttribute("reports", reports);
     return "report/list.html";
   }
-  
-//  @GetMapping(path = "detail")
-//  public String detail(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-//    Report report = reportService.findOne(1);
-//    List<Comment> comments = commentService.findAllByReport(report);
-//    model.addAttribute("report", report);
-//    model.addAttribute("comments", comments);
-//    model.addAttribute("commentForm", new CommentForm());
-//    return "report/detail.html";
-//  }
   
   @PostMapping(path = "detail")
   public String showDetail(Model model, @RequestParam Integer reportId) {
@@ -92,9 +81,9 @@ public class ReportController extends BaseController {
   }
   
   @PostMapping(path = "create")
-  public String createReport(@Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String createReport(Model model, @Validated ReportForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
-      return "";//editForm(id, form);
+      return showList(model, staffDetails);
     }
     Report report = new Report();
     report.setReport(form.getContent());
