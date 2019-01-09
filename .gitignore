@@ -24,3 +24,4 @@
 /nbdist/
 /.nb-gradle/
 src/main/resources/db/migration/V2__addUser.sql
+src/production/application.properties
