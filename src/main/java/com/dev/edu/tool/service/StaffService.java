@@ -39,6 +39,10 @@ public class StaffService {
     return staffRepository.save(staff);
   }
 
+  public Staff update(Staff staff) {
+    return staffRepository.saveAndFlush(staff);
+  }
+  
   /**
    * Staff を DB から削除します。
    * 

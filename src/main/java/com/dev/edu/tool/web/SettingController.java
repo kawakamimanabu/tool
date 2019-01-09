@@ -2,6 +2,7 @@ package com.dev.edu.tool.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,8 @@ import com.dev.edu.tool.service.StaffService;
 public class SettingController extends BaseController {
   @Autowired
   private StaffService staffService;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
   
   @PostMapping
   public String showProfile(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
@@ -30,10 +33,16 @@ public class SettingController extends BaseController {
   
   @PostMapping(path="reset")
   public String resetPassword(Model model, @Validated ConfigForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    Staff staff = staffDetails.getStaff();
     if (result.hasErrors()) {
       return showProfile(model, staffDetails);
     }
-    //TODO パスワードチェック、パスワード更新
+    else if (!passwordEncoder.matches(form.getCurrentPassword(), staff.getEncodedPassword())) {
+      result.rejectValue("currentPassword", "aaa");
+      return showProfile(model, staffDetails);
+    }
+    staff.setEncodedPassword(passwordEncoder.encode(form.getNewPassword()));
+    staffService.update(staff);
     return "redirect:/loginForm";
   }
 }
