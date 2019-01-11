@@ -6,12 +6,20 @@ role が 0 のユーザはログイン後レポートを登録し、コメント
 role が 1 のユーザは role が 0 の全ユーザのレポートが参照可能で、コメントを追加できます。
 
 
+# ビルド方法
+
+[lombok](https://projectlombok.org/download) を IDE に組み込んでください。
+
+[Maven](https://maven.apache.org/download.cgi) をインストールしてください。
+
+
 # DB
 MySQL を使用しています。
 
 education データベース(utf-8) を作成して application.properties の spring.datasource.username と spring.datasource.password を適宜修正してください。
 
 起動時に Flyway がテーブルを自動作成するため、あらかじめテーブルを作成する必要はありません。
+
 
 # 実行方法
 
