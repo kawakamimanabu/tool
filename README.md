@@ -27,6 +27,6 @@ education データベース(utf-8) を作成して application.properties の s
 
 1. java -jar tool-0.0.1-SNAPSHOT.jar を実行します
 
-1. http://localhost:9393 にアクセスしてください
+1. http://localhost:8080 にアクセスしてください
 
 
