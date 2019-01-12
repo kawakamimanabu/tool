@@ -89,14 +89,7 @@ public class ManageContoller extends BaseController {
   @PostMapping(path = "add")
   public String addComment(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
-      Report report = reportService.findOne(reportId);
-      Staff staff = staffService.findOne(report.getStaff().getStaffId());
-      List<Comment> comments = commentService.findAllByReport(report);
-      model.addAttribute("staff", staff);
-      model.addAttribute("report", report);
-      model.addAttribute("comments", comments);
-      model.addAttribute("commentForm", new CommentForm());
-      return "manage/detail.html";
+      return showDetail(model, reportId);
     }
     Report report = reportService.findOne(reportId);
     Comment comment = new Comment();
