@@ -20,6 +20,7 @@ import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.ReportStatus;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.form.CommentForm;
+import com.dev.edu.tool.form.NotificationForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
 import com.dev.edu.tool.service.ReportHistoryService;
@@ -105,4 +106,15 @@ public class ManageContoller extends BaseController {
     return "manage/history.html";
   }
   
+  @PostMapping(path="notification")
+  public String showNotification(Model model, @RequestParam Integer notificationId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    model.addAttribute("notificationForm", new NotificationForm());
+    return "manage/notification.html";
+  }
+  
+  @PostMapping(path="notification/create")
+  public String createNotification(Model model, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    model.addAttribute("notificationForm", new NotificationForm());
+    return "manage/notification.html";
+  }
 }
