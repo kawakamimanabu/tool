@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.dev.edu.tool.domain.Notification;
 import com.dev.edu.tool.domain.Subscriber;
 
 public interface SubscriberRepository extends JpaRepository<Subscriber, Integer> {
-  @Query("SELECT s FROM Subscriber s WHERE s.notificationId=:notificationId ORDER BY s.staff.staffId ASC")
-  List<Notification> findAllByNotificationId(@Param("notificationId") Integer notificationId);
+  @Query("SELECT s FROM Subscriber s WHERE s.notification.notificationId=:notificationId ORDER BY s.staff.staffId ASC")
+  List<Subscriber> findAllByNotificationId(@Param("notificationId") Integer notificationId);
   
 }
