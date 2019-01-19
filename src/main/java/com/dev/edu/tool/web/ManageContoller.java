@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Comment;
+import com.dev.edu.tool.domain.Notification;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.ReportStatus;
@@ -23,6 +24,7 @@ import com.dev.edu.tool.form.CommentForm;
 import com.dev.edu.tool.form.NotificationForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
+import com.dev.edu.tool.service.NotificationService;
 import com.dev.edu.tool.service.ReportHistoryService;
 import com.dev.edu.tool.service.ReportService;
 import com.dev.edu.tool.service.ReportStatusService;
@@ -41,6 +43,8 @@ public class ManageContoller extends BaseController {
   private ReportService reportService;
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private NotificationService notificationService;
   
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
@@ -107,14 +111,21 @@ public class ManageContoller extends BaseController {
   }
   
   @PostMapping(path="notification")
-  public String showNotification(Model model, @RequestParam Integer notificationId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String showNotification(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     model.addAttribute("notificationForm", new NotificationForm());
     return "manage/notification.html";
   }
   
   @PostMapping(path="notification/create")
-  public String createNotification(Model model, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    model.addAttribute("notificationForm", new NotificationForm());
-    return "manage/notification.html";
+  public String createNotification(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    if (result.hasErrors()) {
+      return "";//showNotification(model, reportId);
+    }
+    Notification noti = new Notification();
+    noti.setTitle(form.getTitle());
+    noti.setNotification(form.getNotification());
+    noti.setCreatedWhen(new Date());
+    notificationService.create(noti, staffDetails.getStaff());
+    return "manage/list.html";
   }
 }
