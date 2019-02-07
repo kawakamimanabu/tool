@@ -18,8 +18,8 @@ CREATE TABLE `subscribers` (
   `staff_id` varchar(60) NOT NULL,
   `checked_when` timestamp NULL,
   PRIMARY KEY (`subscriber_id`),
-  KEY `FK_SUBSCRIBERS_NOTIFYID` (`notification_id`),
+  KEY `FK_SUBSCRIBERS_NOTIFICATIONID` (`notification_id`),
   KEY `FK_SUBSCRIBERS_STAFFID` (`staff_id`),
-  CONSTRAINT `FK_SUBSCRIBERS_NOTIFYID` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`notification_id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_SUBSCRIBERS_NOTIFICATIONID` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`notification_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_SUBSCRIBERS_STAFFID` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

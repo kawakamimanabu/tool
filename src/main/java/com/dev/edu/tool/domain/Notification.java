@@ -36,7 +36,7 @@ public class Notification {
   private Date createdWhen;
 
   @Column(nullable = false)
-  private Integer status;
+  private Integer status = 1;
   
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(nullable = false, name = "staffId")

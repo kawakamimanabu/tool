@@ -42,9 +42,9 @@
           <div th:text="${noti.status} ? '無効' : '有効'"></div>
         </td>
  -->
-        <td th:text="${noti.name} + ' さん'">作成した人</td>
+        <td th:text="${noti.staff.name} + ' さん'">作成した人</td>
         <td>
-          <form th:action="@{/manage/notification}" method="post">
+          <form th:action="@{/manage/notification/detail}" method="post">
             <input class="btn btn-default btn-sm" type="submit" name="notify" value="参照"/>
             <input type="hidden" name="notificationId" th:value="${noti.notificationId}" />
           </form>

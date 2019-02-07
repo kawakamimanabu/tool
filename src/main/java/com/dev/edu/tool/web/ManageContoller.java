@@ -49,7 +49,9 @@ public class ManageContoller extends BaseController {
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     List<ReportStatus> reportStatus = reportStatusService.findAll();
+    List<Notification> notifications = notificationService.findAll();
     model.addAttribute("reportStatus", reportStatus);
+    model.addAttribute("notifications", notifications);
     return "manage/list.html";
   }
   
@@ -112,6 +114,12 @@ public class ManageContoller extends BaseController {
   
   @PostMapping(path="notification")
   public String showNotification(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    model.addAttribute("notificationForm", new NotificationForm());
+    return "manage/notification.html";
+  }
+  
+  @PostMapping(path="notification/detail")
+  public String showNotificationDetail(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     model.addAttribute("notificationForm", new NotificationForm());
     return "manage/notification.html";
   }
