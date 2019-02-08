@@ -25,4 +25,8 @@ public class NotificationService {
     return notificationRepository.findAll();
   }
   
+  public Notification findOne(Integer id) {
+    return notificationRepository.getOne(id);
+  }
+  
 }

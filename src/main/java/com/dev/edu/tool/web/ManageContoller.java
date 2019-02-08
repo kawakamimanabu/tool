@@ -21,7 +21,6 @@ import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.ReportStatus;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.form.CommentForm;
-import com.dev.edu.tool.form.NotificationForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
 import com.dev.edu.tool.service.NotificationService;
@@ -48,10 +47,7 @@ public class ManageContoller extends BaseController {
   
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    List<ReportStatus> reportStatus = reportStatusService.findAll();
-    List<Notification> notifications = notificationService.findAll();
-    model.addAttribute("reportStatus", reportStatus);
-    model.addAttribute("notifications", notifications);
+    this.setModel(model);
     return "manage/list.html";
   }
   
@@ -67,8 +63,7 @@ public class ManageContoller extends BaseController {
   
   @PostMapping(path = "history", params = "goToList")
   public String goToList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    List<ReportStatus> reportStatus = reportStatusService.findAll();
-    model.addAttribute("reportStatus", reportStatus);
+    this.setModel(model);
     return "manage/list.html";
   }
   
@@ -112,28 +107,14 @@ public class ManageContoller extends BaseController {
     return "manage/history.html";
   }
   
-  @PostMapping(path="notification")
-  public String showNotification(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    model.addAttribute("notificationForm", new NotificationForm());
-    return "manage/notification.html";
-  }
-  
-  @PostMapping(path="notification/detail")
-  public String showNotificationDetail(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    model.addAttribute("notificationForm", new NotificationForm());
-    return "manage/notification.html";
-  }
-  
-  @PostMapping(path="notification/create")
-  public String createNotification(Model model, @Validated NotificationForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    if (result.hasErrors()) {
-      return "";//showNotification(model, reportId);
-    }
-    Notification noti = new Notification();
-    noti.setTitle(form.getTitle());
-    noti.setNotification(form.getNotification());
-    noti.setCreatedWhen(new Date());
-    notificationService.create(noti, staffDetails.getStaff());
-    return "manage/list.html";
+  /**
+   * 一覧表示用のデータを取得して Model に設定します。
+   * @param model
+   */
+  private void setModel(Model model) {
+    List<ReportStatus> reportStatus = reportStatusService.findAll();
+    List<Notification> notifications = notificationService.findAll();
+    model.addAttribute("reportStatus", reportStatus);
+    model.addAttribute("notifications", notifications);
   }
 }
