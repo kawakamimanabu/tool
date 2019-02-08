@@ -29,4 +29,7 @@ public class NotificationService {
     return notificationRepository.getOne(id);
   }
   
+  public List<Notification> findAllDesc() {
+    return notificationRepository.findAllDesc();
+  }
 }

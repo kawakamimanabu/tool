@@ -41,7 +41,7 @@ public abstract class BaseController {
    */
   protected void setModel(Model model) {
     List<ReportStatus> reportStatus = reportStatusService.findAll();
-    List<Notification> notifications = notificationService.findAll();
+    List<Notification> notifications = notificationService.findAllDesc();
     model.addAttribute("reportStatus", reportStatus);
     model.addAttribute("notifications", notifications);
   }
