@@ -1,5 +1,6 @@
 package com.dev.edu.tool.web;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -44,5 +45,15 @@ public abstract class BaseController {
     List<Notification> notifications = notificationService.findAllDesc();
     model.addAttribute("reportStatus", reportStatus);
     model.addAttribute("notifications", notifications);
+  }
+  
+  protected void setNotification(Integer notificationId, Model model) {
+    Notification notification = notificationService.findOne(notificationId);
+    model.addAttribute("notificationId", notification.getNotificationId());
+    model.addAttribute("title", notification.getTitle());
+    model.addAttribute("notification", notification.getNotification());
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    model.addAttribute("createdWhen", sdf.format(notification.getCreatedWhen()));
+    model.addAttribute("staff", notification.getStaff());
   }
 }

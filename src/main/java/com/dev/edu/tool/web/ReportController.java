@@ -2,6 +2,8 @@ package com.dev.edu.tool.web;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Comment;
+import com.dev.edu.tool.domain.Notification;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.Staff;
+import com.dev.edu.tool.domain.Subscriber;
 import com.dev.edu.tool.form.CommentForm;
+import com.dev.edu.tool.form.NotificationCheckForm;
 import com.dev.edu.tool.form.ReportForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
@@ -44,9 +49,7 @@ public class ReportController extends BaseController {
   
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    Staff staff = staffDetails.getStaff();
-    List<ReportHistory> reports = reportHistoryService.findHistory(staff);
-    model.addAttribute("reports", reports);
+    this.setList(model, staffDetails);
     return "report/list.html";
   }
   
@@ -60,6 +63,25 @@ public class ReportController extends BaseController {
     return "report/detail.html";
   }
 
+  @PostMapping(path="/notification/detail")
+  public String showNotificationDetail(Model model, @RequestParam Integer notificationId) {
+    super.setNotification(notificationId, model);
+    return "report/notificationdetail.html";
+  }
+  
+  @PostMapping(path = "/notification/detail/check", params = "goToList")
+  public String goToList(Model model, @RequestParam Integer notificationId, @Validated NotificationCheckForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    this.setList(model, staffDetails);
+    return "report/list.html";
+  }
+  
+  @PostMapping(path = "/notification/detail/check")
+  public String checkNotification(Model model, @RequestParam Integer notificationId, @Validated NotificationCheckForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    
+    this.setList(model, staffDetails);
+    return "report/list.html";
+  }
+  
   @PostMapping(path = "add")
   public String addComment(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     if (result.hasErrors()) {
@@ -76,8 +98,9 @@ public class ReportController extends BaseController {
   }
   
   @PostMapping(path = "add", params = "goToTop")
-  public String goToTop() {
-    return "redirect:/report";
+  public String goToTop(Model model, @RequestParam Integer reportId, @Validated CommentForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    this.setList(model, staffDetails);
+    return "report/list.html";
   }
   
   @PostMapping(path = "create")
@@ -90,6 +113,20 @@ public class ReportController extends BaseController {
     report.setStaff(staffDetails.getStaff());
     report.setReportedWhen(new Date());
     reportService.create(report, staffDetails.getStaff());
-    return "redirect:/report";
+    this.setList(model, staffDetails);
+    return "report/list.html";
+  }
+  
+  private Function<Subscriber, Notification> extractNotification() {
+    return obj -> {return obj.getNotification();};
+  }
+  
+  private void setList(Model model, LoginStaffDetails staffDetails) {
+    Staff staff = staffDetails.getStaff();
+    List<ReportHistory> reports = reportHistoryService.findHistory(staff);
+    List<Subscriber> subscribers = subscriberService.findByUserId(staff.getStaffId());
+    List<Notification> notifications = subscribers.stream().map(this.extractNotification()).collect(Collectors.toList());
+    model.addAttribute("reports", reports);
+    model.addAttribute("notifications", notifications);
   }
 }

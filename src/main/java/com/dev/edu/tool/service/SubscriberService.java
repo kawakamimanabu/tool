@@ -26,4 +26,8 @@ public class SubscriberService {
   public List<Subscriber> findByNotificationId(Integer notificationId) {
     return subscriberRepository.findByNotificationId(notificationId);
   }
+  
+  public List<Subscriber> findByUserId(String staffId) {
+    return subscriberRepository.findByStaffId(staffId);
+  }
 }

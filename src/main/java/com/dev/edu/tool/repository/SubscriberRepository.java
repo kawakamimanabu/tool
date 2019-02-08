@@ -11,5 +11,8 @@ import com.dev.edu.tool.domain.Subscriber;
 public interface SubscriberRepository extends JpaRepository<Subscriber, Integer> {
   @Query("SELECT s FROM Subscriber s WHERE s.notification.notificationId=:notificationId ORDER BY s.staff.staffId ASC")
   List<Subscriber> findByNotificationId(@Param("notificationId") Integer notificationId);
+
+  @Query("SELECT s FROM Subscriber s WHERE s.staff.staffId=:staffId ORDER BY s.notification.notificationId DESC")
+  List<Subscriber> findByStaffId(@Param("staffId") String staffId);
   
 }
