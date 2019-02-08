@@ -10,6 +10,6 @@ import com.dev.edu.tool.domain.Subscriber;
 
 public interface SubscriberRepository extends JpaRepository<Subscriber, Integer> {
   @Query("SELECT s FROM Subscriber s WHERE s.notification.notificationId=:notificationId ORDER BY s.staff.staffId ASC")
-  List<Subscriber> findAllByNotificationId(@Param("notificationId") Integer notificationId);
+  List<Subscriber> findByNotificationId(@Param("notificationId") Integer notificationId);
   
 }

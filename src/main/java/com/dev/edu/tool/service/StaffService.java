@@ -29,6 +29,10 @@ public class StaffService {
     return staffRepository.getOne(staffId);
   }
 
+  public List<Staff> findNewStaff() {
+    return staffRepository.findNewStaff();
+  }
+  
   /**
    * Staff を DB に新規追加します。
    * 

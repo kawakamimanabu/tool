@@ -3,7 +3,6 @@ package com.dev.edu.tool.web;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,39 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Comment;
-import com.dev.edu.tool.domain.Notification;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.ReportHistory;
-import com.dev.edu.tool.domain.ReportStatus;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.form.CommentForm;
-import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
-import com.dev.edu.tool.service.NotificationService;
-import com.dev.edu.tool.service.ReportHistoryService;
-import com.dev.edu.tool.service.ReportService;
-import com.dev.edu.tool.service.ReportStatusService;
-import com.dev.edu.tool.service.StaffService;
 
 @Controller
 @RequestMapping("manage")
 public class ManageContoller extends BaseController {
-  @Autowired
-  private StaffService staffService;
-  @Autowired
-  private ReportHistoryService reportHistoryService;
-  @Autowired
-  private ReportStatusService reportStatusService;
-  @Autowired
-  private ReportService reportService;
-  @Autowired
-  private CommentService commentService;
-  @Autowired
-  private NotificationService notificationService;
   
   @GetMapping
   public String showList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    this.setModel(model);
+    super.setModel(model);
     return "manage/list.html";
   }
   
@@ -63,7 +42,7 @@ public class ManageContoller extends BaseController {
   
   @PostMapping(path = "history", params = "goToList")
   public String goToList(Model model, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    this.setModel(model);
+    super.setModel(model);
     return "manage/list.html";
   }
   
@@ -107,14 +86,4 @@ public class ManageContoller extends BaseController {
     return "manage/history.html";
   }
   
-  /**
-   * 一覧表示用のデータを取得して Model に設定します。
-   * @param model
-   */
-  private void setModel(Model model) {
-    List<ReportStatus> reportStatus = reportStatusService.findAll();
-    List<Notification> notifications = notificationService.findAll();
-    model.addAttribute("reportStatus", reportStatus);
-    model.addAttribute("notifications", notifications);
-  }
 }

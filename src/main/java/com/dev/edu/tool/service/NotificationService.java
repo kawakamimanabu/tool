@@ -18,7 +18,7 @@ public class NotificationService {
 
   public Notification create(Notification notification, Staff staff) {
     notification.setStaff(staff);
-    return notificationRepository.save(notification);
+    return notificationRepository.saveAndFlush(notification);
   }
   
   public List<Notification> findAll() {
