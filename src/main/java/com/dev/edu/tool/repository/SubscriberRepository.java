@@ -15,4 +15,6 @@ public interface SubscriberRepository extends JpaRepository<Subscriber, Integer>
   @Query("SELECT s FROM Subscriber s WHERE s.staff.staffId=:staffId ORDER BY s.notification.notificationId DESC")
   List<Subscriber> findByStaffId(@Param("staffId") String staffId);
   
+  @Query("SELECT s FROM Subscriber s WHERE s.staff.staffId=:staffId AND s.notification.notificationId=:notificationId")
+  Subscriber findByNotificationIdAndStaffId(@Param("notificationId") Integer notificationId, @Param("staffId") String staffId);
 }

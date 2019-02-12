@@ -30,4 +30,12 @@ public class SubscriberService {
   public List<Subscriber> findByUserId(String staffId) {
     return subscriberRepository.findByStaffId(staffId);
   }
+
+  public Subscriber findByNotificationIdAndStaffId(Integer notificationId, String staffId) {
+    return subscriberRepository.findByNotificationIdAndStaffId(notificationId, staffId);
+  }
+  
+  public Subscriber update(Subscriber subscriber) {
+    return subscriberRepository.saveAndFlush(subscriber);
+  }
 }

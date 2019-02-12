@@ -24,7 +24,6 @@ import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.Staff;
 import com.dev.edu.tool.domain.Subscriber;
 import com.dev.edu.tool.form.CommentForm;
-import com.dev.edu.tool.form.NotificationCheckForm;
 import com.dev.edu.tool.form.ReportForm;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.LoginStaffDetails;
@@ -70,14 +69,16 @@ public class ReportController extends BaseController {
   }
   
   @PostMapping(path = "/notification/detail/check", params = "goToList")
-  public String goToList(Model model, @RequestParam Integer notificationId, @Validated NotificationCheckForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+  public String goToList(Model model, @RequestParam Integer notificationId, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
     this.setList(model, staffDetails);
     return "report/list.html";
   }
   
   @PostMapping(path = "/notification/detail/check")
-  public String checkNotification(Model model, @RequestParam Integer notificationId, @Validated NotificationCheckForm form, BindingResult result, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
-    
+  public String checkNotification(Model model, @RequestParam Integer notificationId, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    Subscriber sub = subscriberService.findByNotificationIdAndStaffId(notificationId, staffDetails.getStaff().getStaffId());
+    sub.setCheckedWhen(new Date());
+    subscriberService.update(sub);
     this.setList(model, staffDetails);
     return "report/list.html";
   }
@@ -117,15 +118,17 @@ public class ReportController extends BaseController {
     return "report/list.html";
   }
   
-  private Function<Subscriber, Notification> extractNotification() {
-    return obj -> {return obj.getNotification();};
-  }
-  
+  /**
+   * レポート一覧とお知らせ一覧を表示するためのデータを取得します。
+   * @param model
+   * @param staffDetails
+   */
   private void setList(Model model, LoginStaffDetails staffDetails) {
+    Function<Subscriber, Notification> func = obj -> {return obj.getNotification();};
     Staff staff = staffDetails.getStaff();
     List<ReportHistory> reports = reportHistoryService.findHistory(staff);
     List<Subscriber> subscribers = subscriberService.findByUserId(staff.getStaffId());
-    List<Notification> notifications = subscribers.stream().map(this.extractNotification()).collect(Collectors.toList());
+    List<Notification> notifications = subscribers.stream().map(func).collect(Collectors.toList());
     model.addAttribute("reports", reports);
     model.addAttribute("notifications", notifications);
   }
