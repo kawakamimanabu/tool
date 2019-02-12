@@ -1,9 +1,8 @@
 package com.dev.edu.tool.web;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.edu.tool.domain.Comment;
-import com.dev.edu.tool.domain.Notification;
+import com.dev.edu.tool.domain.NotificationStatus;
 import com.dev.edu.tool.domain.Report;
 import com.dev.edu.tool.domain.ReportHistory;
 import com.dev.edu.tool.domain.Staff;
@@ -63,8 +62,8 @@ public class ReportController extends BaseController {
   }
 
   @PostMapping(path="/notification/detail")
-  public String showNotificationDetail(Model model, @RequestParam Integer notificationId) {
-    super.setNotification(notificationId, model);
+  public String showNotificationDetail(Model model, @RequestParam Integer notificationId, @AuthenticationPrincipal LoginStaffDetails staffDetails) {
+    setNotificationStatus(model, staffDetails.getStaff().getStaffId(), notificationId);
     return "report/notificationdetail.html";
   }
   
@@ -124,12 +123,22 @@ public class ReportController extends BaseController {
    * @param staffDetails
    */
   private void setList(Model model, LoginStaffDetails staffDetails) {
-    Function<Subscriber, Notification> func = obj -> {return obj.getNotification();};
     Staff staff = staffDetails.getStaff();
     List<ReportHistory> reports = reportHistoryService.findHistory(staff);
-    List<Subscriber> subscribers = subscriberService.findByUserId(staff.getStaffId());
-    List<Notification> notifications = subscribers.stream().map(func).collect(Collectors.toList());
+    List<NotificationStatus> notificationStatus = notificationStatusService.findBySubscriberId(staff.getStaffId());
     model.addAttribute("reports", reports);
-    model.addAttribute("notifications", notifications);
+    model.addAttribute("notifications", notificationStatus);
+  }
+  
+  private void setNotificationStatus(Model model, String staffId, Integer notificationId) {
+    NotificationStatus notificationStatus = notificationStatusService.findByNotificationIdAndSubscriberId(notificationId, staffId);
+    model.addAttribute("notificationId", notificationStatus.getNotificationStatusPk().getNotificationId());
+    model.addAttribute("title", notificationStatus.getTitle());
+    model.addAttribute("notification", notificationStatus.getNotification());
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    model.addAttribute("createdWhen", sdf.format(notificationStatus.getCreatedWhen()));
+    if (notificationStatus.getCheckedWhen() != null) {
+      model.addAttribute("checkedWhen", sdf.format(notificationStatus.getCheckedWhen()));
+    }
   }
 }

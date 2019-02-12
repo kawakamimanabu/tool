@@ -12,6 +12,7 @@ import com.dev.edu.tool.domain.Notification;
 import com.dev.edu.tool.domain.ReportStatus;
 import com.dev.edu.tool.service.CommentService;
 import com.dev.edu.tool.service.NotificationService;
+import com.dev.edu.tool.service.NotificationStatusService;
 import com.dev.edu.tool.service.ReportHistoryService;
 import com.dev.edu.tool.service.ReportService;
 import com.dev.edu.tool.service.ReportStatusService;
@@ -35,7 +36,10 @@ public abstract class BaseController {
   protected NotificationService notificationService;
   @Autowired
   protected SubscriberService subscriberService;
-
+  @Autowired
+  protected NotificationStatusService notificationStatusService;
+  
+  
   /**
    * 一覧表示用のデータを取得して Model に設定します。
    * @param model

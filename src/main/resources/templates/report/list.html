@@ -27,15 +27,17 @@
       <tr>
         <th>タイトル</th>
         <th>作成日時</th>
+        <th>確認日時</th>
         <th>参照</th>
       </tr>
       <tr th:each="noti : ${notifications}">
         <td th:text="${noti.title}">タイトル</td>
         <td th:text="${noti.createdWhen}">作成日時</td>
+        <td th:text="${noti.checkedWhen}">確認日時</td>
         <td>
           <form th:action="@{/report/notification/detail}" method="post">
             <input class="btn btn-default btn-sm" type="submit" name="notify" value="参照"/>
-            <input type="hidden" name="notificationId" th:value="${noti.notificationId}" />
+            <input type="hidden" name="notificationId" th:value="${noti.notificationStatusPk.notificationId}" />
           </form>
         </td>
       </tr>

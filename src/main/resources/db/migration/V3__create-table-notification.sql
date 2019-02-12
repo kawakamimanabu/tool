@@ -23,3 +23,16 @@ CREATE TABLE `subscribers` (
   CONSTRAINT `FK_SUBSCRIBERS_NOTIFICATIONID` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`notification_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_SUBSCRIBERS_STAFFID` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE VIEW notification_status AS
+select 
+noti.notification_id
+, noti.title
+, noti.notification
+, noti.created_when
+, noti.staff_id created_by
+, sub.staff_id checked_by
+, sub.checked_when
+from 
+ education.notifications noti
+left join subscribers sub on noti.notification_id = sub.notification_id
