@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>お知らせ詳細</title>
+  <link rel="stylesheet" type="text/css" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}"/>
+</head>
+<body>
+<div class="container">
+  <h1>お知らせ</h1>
+    <div class="form-group">
+      <div class="col-sm-12">
+    <dl>
+      <dt><label for="title">タイトル</label></dt>
+      <dd>
+        <p th:text="*{title}"/>
+      </dd>
+      <dt><label for="notificationarea">お知らせ内容</label></dt>
+      <dd>
+        <th:block th:if="*{notification}">
+          <th:block th:each="str, stat : ${notification.split('\r\n|\r|\n', -1)}">
+            <th:block th:text="${str}"/>
+            <br th:if="${!stat.last}"/>
+          </th:block>
+        </th:block>
+      </dd>
+      <dt><label for="createdWhen">作成日時</label></dt>
+      <dd>
+        <p th:text="*{createdWhen}"/>
+      </dd>
+      <dt><label for="name">作成した人</label></dt>
+      <dd>
+        <p th:text="${staff.name} + ' さん'"/>
+      </dd>
+    </dl>
+  <form th:action="@{/manage/history}" class="form-horizontal" method="post">
+        <input type="submit" class="btn btn-default" name="goToList" value="戻る"/>
+  </form>
+      </div>
+    <table class="table table-striped table-bordered table-condensed">
+      <tr>
+        <th>確認した人</th>
+        <th>確認日時</th>
+      </tr>
+      <tr th:each="subscriber : ${subscribers}">
+        <td th:text="${subscriber.staff.name} + ' さん'"></td>
+        <td th:text="${subscriber.checkedWhen}">確認日時</td>
+      </tr>
+    </table>
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"  th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -18,8 +18,43 @@
   <form class="form-signin" th:action="@{/setting}" method="post">
     <input type="submit" class="btn btn-default btn-xs" value="パスワード更新" />
   </form>
+  <form class="form-signin" th:action="@{/notification}" method="post">
+    <input type="submit" class="btn btn-default btn-xs" value="お知らせ追加" />
+  </form>
   
   <hr/>
+  <p>お知らせ一覧</p>
+  <div class="col-sm-12">
+    <span th:if="${#lists.isEmpty(notifications)}">お知らせは登録されていません。</span>
+    <table class="table table-striped table-bordered table-condensed" th:unless="${#lists.isEmpty(notifications)}">
+      <tr>
+        <th>タイトル</th>
+        <th>作成日時</th>
+<!--         <th>状態</th> -->
+        <th>作成した人</th>
+        <th>参照</th>
+      </tr>
+      <tr th:each="noti : ${notifications}">
+        <td th:text="${noti.title}">タイトル</td>
+        <td th:text="${noti.createdWhen}">作成日時</td>
+<!-- 
+        <td>
+          <div th:text="${noti.status} ? '無効' : '有効'"></div>
+        </td>
+ -->
+        <td th:text="${noti.staff.name} + ' さん'">作成した人</td>
+        <td>
+          <form th:action="@{/notification/detail}" method="post">
+            <input class="btn btn-default btn-sm" type="submit" name="notify" value="参照"/>
+            <input type="hidden" name="notificationId" th:value="${noti.notificationId}" />
+          </form>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <hr/>
+  <p>報告状況一覧</p>
   <div class="col-sm-12">
     <table class="table table-striped table-bordered table-condensed">
       <tr>

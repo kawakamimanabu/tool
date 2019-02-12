@@ -20,6 +20,30 @@
     <input type="submit" class="btn btn-default btn-xs" value="パスワード更新" />
   </form>
   
+  <p>お知らせ一覧</p>
+  <div class="col-sm-12">
+    <span th:if="${#lists.isEmpty(notifications)}">お知らせは登録されていません。</span>
+    <table class="table table-striped table-bordered table-condensed" th:unless="${#lists.isEmpty(notifications)}">
+      <tr>
+        <th>タイトル</th>
+        <th>作成日時</th>
+        <th>確認日時</th>
+        <th>参照</th>
+      </tr>
+      <tr th:each="noti : ${notifications}">
+        <td th:text="${noti.title}">タイトル</td>
+        <td th:text="${noti.createdWhen}">作成日時</td>
+        <td th:text="${noti.checkedWhen}">確認日時</td>
+        <td>
+          <form th:action="@{/report/notification/detail}" method="post">
+            <input class="btn btn-default btn-sm" type="submit" name="notify" value="参照"/>
+            <input type="hidden" name="notificationId" th:value="${noti.notificationStatusPk.notificationId}" />
+          </form>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
   <div class="col-sm-12">
     <form th:action="@{/report/create}" th:object="${reportForm}" class="form-horizontal" method="post">
       <dl>
@@ -36,7 +60,8 @@
       </div>
     </form>
     <hr/>
-    <table class="table table-striped table-bordered table-condensed">
+    <span th:if="${#lists.isEmpty(reports)}">報告は登録されていません。</span>
+    <table class="table table-striped table-bordered table-condensed" th:unless="${#lists.isEmpty(reports)}">
       <tr>
         <th>報告日時</th>
         <th>最新コメント追加日時</th>
